@@ -1,0 +1,39 @@
+import React from 'react';
+import { CoinIcon, StoreIcon } from './icons';
+
+interface CounterStoreProps {
+    points: number;
+    onBuy: () => void;
+    cost: number;
+}
+
+const CounterStore: React.FC<CounterStoreProps> = ({ points, onBuy, cost }) => {
+    const canAfford = points >= cost;
+
+    return (
+        <div className="bg-gray-900/50 border border-teal-500/30 rounded-2xl shadow-lg p-8 flex flex-col justify-center items-center backdrop-blur-sm text-center mt-10">
+            <StoreIcon className="w-20 h-20 mx-auto text-teal-400 mb-4" />
+            <h2 className="text-3xl font-bold text-white mb-2">شراء العداد</h2>
+            <p className="text-gray-400 mb-6">قم بشراء العداد لبدء كسب النقاط والمجوهرات يومياً.</p>
+
+            <div className="flex justify-center items-center space-x-2 text-3xl font-bold text-amber-400 mb-8">
+                <CoinIcon className="w-8 h-8" />
+                <span>{cost.toLocaleString()}</span>
+            </div>
+
+            <button
+                onClick={onBuy}
+                disabled={!canAfford}
+                className={`w-full py-4 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform shadow-[0_0_15px_rgba(0,0,0,0.5)]
+                ${canAfford
+                    ? 'bg-gradient-to-t from-teal-600 to-teal-500 text-white border-t border-teal-400 hover:shadow-teal-500/40 hover:scale-105'
+                    : 'bg-gray-700 text-gray-500 cursor-not-allowed border-t border-gray-600'
+                }`}
+            >
+                {canAfford ? 'شراء الآن' : 'نقاط غير كافية'}
+            </button>
+        </div>
+    );
+};
+
+export default CounterStore;
