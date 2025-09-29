@@ -8,7 +8,7 @@ import PointCollector from './components/PointCollector';
 const COUNTER_COST = 1000;
 const COOLDOWN_PERIOD = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 const JEWEL_REWARD_PER_CYCLE = 500;
-const POINT_REWARD_PER_CYCLE = 250;
+const POINT_REWARD_PER_CYCLE = 0;
 
 const App: React.FC = () => {
     const [dollars, setDollars] = useLocalStorage<number>('dollars', 0);
@@ -70,7 +70,7 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-teal-500/20">
+        <div className="min-h-screen flex flex-col items-center justify-center p-4 selection:bg-amber-500/40">
             <div className="w-full max-w-md mx-auto">
                 <Header dollars={dollars} points={points} jewels={jewels} />
                 <main className="mt-8">

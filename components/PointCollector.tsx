@@ -7,16 +7,16 @@ interface PointCollectorProps {
 
 const PointCollector: React.FC<PointCollectorProps> = ({ onCollect }) => {
     return (
-        <div className="bg-slate-800/50 rounded-2xl shadow-lg p-6 flex flex-col justify-center items-center backdrop-blur-sm border border-slate-700 text-center">
+        <div className="bg-black/30 rounded-2xl shadow-lg p-6 flex flex-col justify-center items-center backdrop-blur-sm border border-gray-700/50 text-center">
             <h2 className="text-2xl font-bold text-white mb-2">جامع النقاط</h2>
-            <p className="text-slate-400 mb-6">انقر على الزر لكسب النقاط اللازمة لشراء العداد.</p>
+            <p className="text-gray-300 mb-6">انقر على الزر لكسب النقاط اللازمة لشراء العداد.</p>
             <button
                 onClick={onCollect}
-                className="group relative w-48 h-48 rounded-full bg-gradient-to-br from-amber-500 to-yellow-500 text-slate-900 font-bold text-xl shadow-lg hover:shadow-amber-500/30 transform transition-all duration-300 hover:scale-105 active:scale-95 flex flex-col items-center justify-center"
+                className="group relative w-48 h-48 rounded-full bg-gradient-to-br from-gray-800 to-black text-yellow-300 font-bold text-xl shadow-lg hover:shadow-yellow-400/20 transform transition-all duration-300 hover:scale-105 active:scale-95 flex flex-col items-center justify-center"
             >
-                <CoinIcon className="w-16 h-16 mb-2 transition-transform duration-300 group-hover:rotate-12" />
+                <CoinIcon className="w-16 h-16 mb-2 text-yellow-400 transition-transform duration-300 group-hover:rotate-12" />
                 اجمع النقاط
-                 <div className="absolute inset-0 rounded-full border-2 border-amber-300/50 animate-ping-slow opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                 <div className="absolute inset-0 rounded-full border-2 border-yellow-400/50 animate-ping-slow opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
         </div>
     );

@@ -64,10 +64,10 @@ const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActiva
          <button 
             onClick={onActivate}
             disabled={!!activationStartTime}
-            className="flex-1 flex items-center justify-center bg-teal-900/40 border border-teal-600/50 rounded-full p-2.5 shadow-lg text-lg font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 flex items-center justify-center bg-black border border-yellow-500/50 backdrop-blur-md rounded-full p-2.5 shadow-lg text-lg font-bold disabled:opacity-70 disabled:cursor-not-allowed transition-colors hover:bg-gray-900"
         >
             {!activationStartTime ? (
-                <span className="text-amber-300">تفعيل</span>
+                <span className="text-yellow-300">تفعيل</span>
             ) : (
                 <span className="font-mono text-white tracking-wider">
                     {String(hours).padStart(2, '0')}:{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
@@ -99,7 +99,7 @@ const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActiva
             <div className="w-full flex items-center gap-3 px-2">
                 <button 
                     disabled
-                    className="flex-1 flex items-center justify-center gap-3 bg-gray-800/50 border border-gray-700 rounded-full p-2.5 shadow-lg text-lg text-gray-500 font-bold cursor-not-allowed"
+                    className="flex-1 flex items-center justify-center gap-3 bg-black border border-gray-700 backdrop-blur-md rounded-full p-2.5 shadow-lg text-lg text-gray-400 font-bold cursor-not-allowed"
                 >
                     <PlusIcon className="w-6 h-6" />
                     <span>متجر العدادات</span>
@@ -107,21 +107,21 @@ const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActiva
                 <CountdownButton />
             </div>
 
-            <button disabled className="w-full flex items-center justify-between bg-gray-800/50 border border-gray-700 rounded-full p-2.5 shadow-lg text-lg text-gray-500 font-bold mt-2 px-6 cursor-not-allowed">
+            <button disabled className="w-full flex items-center justify-between bg-black border border-gray-700 backdrop-blur-md rounded-full p-2.5 shadow-lg text-lg text-gray-400 font-bold mt-2 px-6 cursor-not-allowed">
                 <span>إهداء عداد</span>
                 <ChevronIcon className="w-6 h-6" />
             </button>
             
             {/* Rewards Info Box */}
-            <div className="w-full mt-6 bg-purple-900/40 border border-purple-600/50 rounded-lg p-2 shadow-lg">
-                <div className="bg-purple-800/50 rounded-t-md px-4 py-1 text-center font-bold text-sm">
+            <div className="w-full mt-6 bg-black/30 border border-gray-700/50 backdrop-blur-md rounded-lg p-2 shadow-lg">
+                <div className="bg-black/20 rounded-t-md px-4 py-1 text-center font-semibold text-sm text-yellow-200">
                     ما تحصل عليه من العداد حالياً
                 </div>
                 <div className="flex flex-col gap-1 p-2">
-                     <div className="bg-teal-500/80 rounded p-3 text-center text-black font-bold">
+                     <div className="bg-black/20 rounded p-3 text-center text-gray-200 font-semibold">
                         تتحصل يوميا على ({jewelRewardPerCycle}) جوهرة من العداد
                     </div>
-                     <div className="bg-teal-500/80 rounded p-3 text-center text-black font-bold">
+                     <div className="bg-black/20 rounded p-3 text-center text-gray-200 font-semibold">
                         تتحصل يوميا على ({pointReward.toLocaleString()}) نقطة من العداد
                     </div>
                 </div>
