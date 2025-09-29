@@ -8,11 +8,12 @@ interface MainCounterProps {
     cooldownPeriod: number;
     jewelRewardPerCycle: number;
     pointReward: number;
+    onOpenStore: () => void;
 }
 
 const MatrixEffect: React.FC = () => {
     const [text, setText] = useState('');
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789<>/\?|[]{}()';
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789<>/?|[]{}()';
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -33,7 +34,7 @@ const MatrixEffect: React.FC = () => {
 }
 
 
-const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActivate, cooldownPeriod, jewelRewardPerCycle, pointReward }) => {
+const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActivate, cooldownPeriod, jewelRewardPerCycle, pointReward, onOpenStore }) => {
     const targetTime = activationStartTime ? activationStartTime + cooldownPeriod : null;
     const { hours, minutes, seconds } = useCountdown(targetTime);
 
@@ -97,9 +98,9 @@ const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActiva
             
             {/* Action Buttons */}
             <div className="w-full flex items-center gap-3 px-2">
-                <button 
-                    disabled
-                    className="flex-1 flex items-center justify-center gap-3 bg-black border border-gray-700 backdrop-blur-md rounded-full p-2.5 shadow-lg text-lg text-gray-400 font-bold cursor-not-allowed"
+                <button
+                    onClick={onOpenStore}
+                    className="flex-1 flex items-center justify-center gap-3 bg-black border border-gray-700 backdrop-blur-md rounded-full p-2.5 shadow-lg text-lg text-yellow-300 font-bold transition-colors hover:bg-gray-900"
                 >
                     <PlusIcon className="w-6 h-6" />
                     <span>متجر العدادات</span>
