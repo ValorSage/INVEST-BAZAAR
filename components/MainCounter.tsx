@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useCountdown } from '../hooks/useCountdown';
 import { ChevronIcon, PlusIcon } from './icons';
+import AdCarousel from './AdCarousel';
 
 interface MainCounterProps {
     activationStartTime: number | null;
@@ -127,6 +128,8 @@ const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActiva
                     </div>
                 </div>
             </div>
+
+            <AdCarousel />
         </div>
     );
 };
