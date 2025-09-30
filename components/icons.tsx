@@ -118,7 +118,7 @@ export const UsersIcon: React.FC<IconProps> = ({ className }) => (
 
 export const ClipboardIcon: React.FC<IconProps> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-       <path strokeLinecap="round" strokeLinejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a2.25 2.25 0 0 1-2.25 2.25h-1.5a2.25 2.25 0 0 1-2.25-2.25v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185v1.266c0 1.108-.806 2.057-1.907 2.185A48.217 48.217 0 0 1 12 13.5c-2.433 0-4.817-.176-7.142-.53-1.1-.128-1.907-1.077-1.907-2.185v-1.266c0-1.108.806-2.057 1.907-2.185A48.217 48.217 0 0 1 6.75 9H9" />
+       <path strokeLinecap="round" strokeLinejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a2.25 2.25 0 0 1-2.25 2.25h-1.5a2.25 2.25 0 0 1-2.25-2.25v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185v1.266c0 1.108-.806 2.057-1.907 2.185A48.217 48.217 0 0 1 12 13.5c-2.433 0-4.817-.176-7.142-.53-1.1-.128-1.907-1.077-1.907-2.185v-1.266c0-1.108.806 2.057 1.907-2.185A48.217 48.217 0 0 1 6.75 9H9" />
     </svg>
 );
 
@@ -165,8 +165,21 @@ export const HeadsetIcon: React.FC<IconProps> = ({ className }) => (
     </svg>
 );
 
-export const LogoutIcon: React.FC<IconProps> = ({ className }) => (
+export const IdIcon: React.FC<IconProps> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 7.5h13.5m-13.5 9h13.5m-1.5-15-3 18m-6-18-3 18" />
+    </svg>
+);
+
+
+export const ExitIcon: React.FC<IconProps> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
     </svg>
+);
+
+export const LogoutIcon: React.FC<IconProps> = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+  </svg>
 );

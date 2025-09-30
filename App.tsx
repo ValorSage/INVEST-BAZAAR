@@ -6,8 +6,9 @@ import MainCounter from './components/MainCounter';
 import PointCollector from './components/PointCollector';
 import Store from './components/Store';
 import NotificationsPanel from './components/NotificationsPanel';
-import { Counter, Notification } from './types';
-import { UserIcon, ChevronIcon, ArrowRightIcon, CameraIcon, PencilIcon, PhoneIcon, MailIcon, ReferralIcon, CheckIcon, LockIcon, ShieldCheckIcon, DocumentIcon, BellIcon, HeadsetIcon, LogoutIcon } from './components/icons';
+import Auth from './components/Auth';
+import { Counter, Notification, User } from './types';
+import { UserIcon, ChevronIcon, ArrowRightIcon, CameraIcon, PencilIcon, PhoneIcon, MailIcon, ReferralIcon, CheckIcon, LockIcon, ShieldCheckIcon, DocumentIcon, BellIcon, HeadsetIcon, ExitIcon, LogoutIcon, IdIcon } from './components/icons';
 
 const COUNTER_COST = 1000;
 const COOLDOWN_PERIOD = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -15,24 +16,32 @@ const BASE_JEWEL_REWARD_PER_CYCLE = 500;
 const BASE_POINT_REWARD_PER_CYCLE = 0;
 
 const App: React.FC = () => {
-    const [dollars, setDollars] = useLocalStorage<number>('dollars', 0);
-    const [points, setPoints] = useLocalStorage<number>('points', 0);
-    const [jewels, setJewels] = useLocalStorage<number>('jewels', 0);
-    const [hasCounter, setHasCounter] = useLocalStorage<boolean>('hasCounter', true);
-    const [activationStartTime, setActivationStartTime] = useLocalStorage<number | null>('activationStartTime', null);
-    const [userCounters, setUserCounters] = useLocalStorage<Counter[]>('userCounters', []);
+    const [currentUser, setCurrentUser] = useLocalStorage<User | null>('currentUser', null);
+
+    // Per-user data keys
+    const userDataKey = (key: string) => currentUser ? `${key}_${currentUser.email}` : key;
+
+    const [dollars, setDollars] = useLocalStorage<number>(userDataKey('dollars'), 0);
+    const [points, setPoints] = useLocalStorage<number>(userDataKey('points'), 0);
+    const [jewels, setJewels] = useLocalStorage<number>(userDataKey('jewels'), 0);
+    const [hasCounter, setHasCounter] = useLocalStorage<boolean>(userDataKey('hasCounter'), true);
+    const [activationStartTime, setActivationStartTime] = useLocalStorage<number | null>(userDataKey('activationStartTime'), null);
+    const [userCounters, setUserCounters] = useLocalStorage<Counter[]>(userDataKey('userCounters'), []);
+    const [notifications, setNotifications] = useLocalStorage<Notification[]>(userDataKey('notifications'), []);
+    
+    // Profile State
+    const [profileName, setProfileName] = useLocalStorage<string>(userDataKey('profileName'), 'Moody Hey');
+    const [profilePicture, setProfilePicture] = useLocalStorage<string | null>(userDataKey('profilePicture'), null);
+    const [profileEmail, setProfileEmail] = useLocalStorage<string>(userDataKey('profileEmail'), 'heymoody785@gmail.com');
+    const [profilePhone, setProfilePhone] = useLocalStorage<string>(userDataKey('profilePhone'), 'غير متوفر');
+
+
     const [showStore, setShowStore] = useState(false);
-    const [notifications, setNotifications] = useLocalStorage<Notification[]>('notifications', []);
     const [showNotificationsPanel, setShowNotificationsPanel] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const [showUserProfile, setShowUserProfile] = useState(false);
     const [showNotificationsLogScreen, setShowNotificationsLogScreen] = useState(false);
     
-    // Profile State
-    const [profileName, setProfileName] = useLocalStorage<string>('profileName', 'Moody Hey');
-    const [profilePicture, setProfilePicture] = useLocalStorage<string | null>('profilePicture', null);
-    const [profileEmail, setProfileEmail] = useLocalStorage<string>('profileEmail', 'heymoody785@gmail.com');
-    const [profilePhone, setProfilePhone] = useLocalStorage<string>('profilePhone', 'غير متوفر');
     const [tempProfileName, setTempProfileName] = useState(profileName);
     const [tempProfilePhone, setTempProfilePhone] = useState(profilePhone);
     const [isEditingName, setIsEditingName] = useState(false);
@@ -42,6 +51,18 @@ const App: React.FC = () => {
 
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Effect to initialize user data on login
+    useEffect(() => {
+        if (currentUser) {
+            setProfileName(currentUser.name);
+            setProfileEmail(currentUser.email);
+            // Reset temp fields on user change
+            setTempProfileName(currentUser.name);
+            setTempProfilePhone(profilePhone); // keeps existing phone
+        }
+    }, [currentUser]);
+
 
     const pointRewardPerCycle = userCounters.reduce((sum, counter) => sum + (counter.points || 0), BASE_POINT_REWARD_PER_CYCLE);
     const jewelRewardPerCycle = userCounters.reduce((sum, counter) => sum + (counter.jewels || 0), BASE_JEWEL_REWARD_PER_CYCLE);
@@ -73,10 +94,10 @@ const App: React.FC = () => {
     };
 
     useEffect(() => {
-        if (!notifications.some(n => n.message.includes("أهلاً بك"))) {
-            addNotification('أهلاً بك في لعبة عداد النقاط!');
+        if (currentUser && !notifications.some(n => n.message.includes("أهلاً بك"))) {
+            addNotification(`أهلاً بك في لعبة عداد النقاط، ${currentUser.name}!`);
         }
-    }, []);
+    }, [currentUser]);
 
     useEffect(() => {
         if (activationStartTime) {
@@ -191,7 +212,17 @@ const App: React.FC = () => {
         setTimeout(() => setCopied(false), 2000);
     };
 
+    const handleLogout = () => {
+        setCurrentUser(null);
+        setShowMenu(false);
+        setShowUserProfile(false);
+    };
+
     const unreadCount = notifications.filter(n => !n.read).length;
+
+    if (!currentUser) {
+        return <Auth onLoginSuccess={setCurrentUser} />;
+    }
 
     if (showMenu) {
         if (showUserProfile) {
@@ -299,6 +330,17 @@ const App: React.FC = () => {
                                         <MailIcon className="w-6 h-6 text-slate-500" />
                                     </div>
                                 </div>
+                                {/* User ID */}
+                                <div className="flex items-center justify-between py-3 border-b border-amber-900/10">
+                                    <div className="w-10 h-10"></div> {/* Spacer */}
+                                    <div className="text-right flex-grow flex items-center justify-end gap-3">
+                                        <div>
+                                            <p className="font-semibold text-slate-800">معرّف المستخدم</p>
+                                            <p className="text-slate-600 tracking-wider">{currentUser.userId}</p>
+                                        </div>
+                                        <IdIcon className="w-6 h-6 text-slate-500" />
+                                    </div>
+                                </div>
                                 {/* Referral Code */}
                                 <div className="flex items-center justify-between py-3">
                                     <div className="relative p-2">
@@ -360,7 +402,17 @@ const App: React.FC = () => {
                                 </div>
                             </div>
                         </section>
-
+                        
+                        {/* Logout Button */}
+                        <section className="mt-8">
+                            <button
+                                onClick={handleLogout}
+                                className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg font-semibold text-white bg-red-600/80 hover:bg-red-600 transition-colors shadow-lg"
+                            >
+                                <LogoutIcon className="w-6 h-6" />
+                                <span>تسجيل الخروج</span>
+                            </button>
+                        </section>
                     </div>
                 </div>
             );
@@ -422,7 +474,7 @@ const App: React.FC = () => {
                         className="absolute top-4 right-4 text-white p-2 rounded-full hover:bg-white/10 transition-colors"
                         aria-label="العودة للعبة"
                     >
-                        <LogoutIcon className="w-8 h-8" />
+                        <ExitIcon className="w-8 h-8" />
                     </button>
                     
                     <div className="flex flex-col items-center gap-2 mb-6">
