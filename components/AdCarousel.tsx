@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
-const ads = [
+interface Ad {
+    id: number;
+    title?: string;
+    description?: string;
+    imageUrl?: string;
+    alt?: string;
+}
+
+const ads: Ad[] = [
     {
         id: 1,
-        title: 'الإعلان الأول',
-        description: 'هذا هو الوصف الخاص بالإعلان الأول. احصل على مكافآت رائعة الآن!'
+        imageUrl: 'https://static1.cbrimages.com/wordpress/wp-content/uploads/2021/02/eren-mirror.jpg',
+        alt: 'إعلان Eren Yeager'
     },
     {
         id: 2,
@@ -32,10 +40,21 @@ const AdCarousel: React.FC = () => {
     const currentAd = ads[currentIndex];
 
     return (
-        <div className="w-full bg-black/30 border border-gray-700/50 backdrop-blur-md rounded-lg p-4 shadow-lg text-center overflow-hidden h-24 flex flex-col justify-center">
-            <div key={currentAd.id} className="animate-fade-in-ad">
-                 <h3 className="font-bold text-yellow-300 text-lg">{currentAd.title}</h3>
-                 <p className="text-gray-300 text-sm mt-1">{currentAd.description}</p>
+        <div className="w-full bg-black/30 border border-gray-700/50 backdrop-blur-md rounded-lg p-0 shadow-lg text-center overflow-hidden h-36 flex items-center justify-center">
+            <div key={currentAd.id} className="animate-fade-in-ad w-full h-full">
+                {currentAd.imageUrl ? (
+                    <img 
+                        src={currentAd.imageUrl} 
+                        alt={currentAd.alt || 'إعلان'} 
+                        className="w-full h-full object-cover"
+                        aria-label={currentAd.alt}
+                    />
+                ) : (
+                    <div className="p-4 flex flex-col justify-center h-full">
+                        <h3 className="font-bold text-yellow-300 text-lg">{currentAd.title}</h3>
+                        <p className="text-gray-300 text-sm mt-1">{currentAd.description}</p>
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -44,8 +63,8 @@ const AdCarousel: React.FC = () => {
 const style = document.createElement('style');
 style.innerHTML = `
 @keyframes fade-in-ad {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
 }
 .animate-fade-in-ad {
     animation: fade-in-ad 0.5s ease-out forwards;

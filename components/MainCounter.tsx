@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { useCountdown } from '../hooks/useCountdown';
-import { ChevronIcon, PlusIcon } from './icons';
+import { ChevronIcon, PlusIcon, GamesIcon, ChatIcon, WithdrawIcon } from './icons';
 import AdCarousel from './AdCarousel';
 
 interface MainCounterProps {
@@ -10,6 +11,9 @@ interface MainCounterProps {
     jewelRewardPerCycle: number;
     pointReward: number;
     onOpenStore: () => void;
+    onOpenGiftCounter: () => void;
+    onOpenSecondaryMenu: () => void;
+    onOpenChat: () => void;
 }
 
 const MatrixEffect: React.FC = () => {
@@ -35,7 +39,7 @@ const MatrixEffect: React.FC = () => {
 }
 
 
-const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActivate, cooldownPeriod, jewelRewardPerCycle, pointReward, onOpenStore }) => {
+const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActivate, cooldownPeriod, jewelRewardPerCycle, pointReward, onOpenStore, onOpenGiftCounter, onOpenSecondaryMenu, onOpenChat }) => {
     const targetTime = activationStartTime ? activationStartTime + cooldownPeriod : null;
     const { hours, minutes, seconds } = useCountdown(targetTime);
 
@@ -98,7 +102,7 @@ const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActiva
             </div>
             
             {/* Action Buttons */}
-            <div className="w-full flex items-center gap-3 px-2">
+            <div className="w-full flex items-center gap-3">
                 <button
                     onClick={onOpenStore}
                     className="flex-1 flex items-center justify-center gap-3 bg-black border border-gray-700 backdrop-blur-md rounded-full p-2.5 shadow-lg text-lg text-yellow-300 font-bold transition-colors hover:bg-gray-900"
@@ -109,13 +113,16 @@ const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActiva
                 <CountdownButton />
             </div>
 
-            <button disabled className="w-full flex items-center justify-between bg-black border border-gray-700 backdrop-blur-md rounded-full p-2.5 shadow-lg text-lg text-gray-400 font-bold mt-2 px-6 cursor-not-allowed">
+            <button
+                onClick={onOpenGiftCounter}
+                className="w-full flex items-center justify-between bg-black border border-gray-700 backdrop-blur-md rounded-full p-2.5 shadow-lg text-lg text-yellow-300 font-bold px-6 transition-colors hover:bg-gray-900"
+            >
                 <span>إهداء عداد</span>
                 <ChevronIcon className="w-6 h-6" />
             </button>
             
             {/* Rewards Info Box */}
-            <div className="w-full mt-6 bg-black/30 border border-gray-700/50 backdrop-blur-md rounded-lg p-2 shadow-lg">
+            <div className="w-full bg-black/30 border border-gray-700/50 backdrop-blur-md rounded-lg p-2 shadow-lg">
                 <div className="bg-black/20 rounded-t-md px-4 py-1 text-center font-semibold text-sm text-yellow-200">
                     ما تحصل عليه من العداد حالياً
                 </div>
@@ -130,6 +137,36 @@ const MainCounter: React.FC<MainCounterProps> = ({ activationStartTime, onActiva
             </div>
 
             <AdCarousel />
+
+            {/* New Clean Card Menu */}
+            <div className="w-full mt-2">
+                <div className="flex gap-3">
+                    <button
+                        onClick={() => alert('ميزة الألعاب قيد التطوير!')}
+                        className="group flex-1 aspect-square bg-black/30 border border-gray-700/50 backdrop-blur-md rounded-lg shadow-lg flex flex-col items-center justify-center text-white hover:bg-black/50 transition-all duration-200"
+                        aria-label="العاب"
+                    >
+                        <GamesIcon className="text-5xl text-yellow-300 transition-transform duration-200 group-hover:scale-110" />
+                        <span className="text-base mt-1.5 transition-colors duration-200 group-hover:text-yellow-300">العاب</span>
+                    </button>
+                     <button
+                        onClick={onOpenChat}
+                        className="group flex-1 aspect-square bg-black/30 border border-gray-700/50 backdrop-blur-md rounded-lg shadow-lg flex flex-col items-center justify-center text-white hover:bg-black/50 transition-all duration-200"
+                        aria-label="دردشة"
+                    >
+                        <ChatIcon className="w-12 h-12 text-yellow-300 transition-transform duration-200 group-hover:scale-110" />
+                        <span className="text-base mt-1.5 transition-colors duration-200 group-hover:text-yellow-300">دردشة</span>
+                    </button>
+                     <button
+                        onClick={() => alert('ميزة سحب الأموال قيد التطوير!')}
+                        className="group flex-1 aspect-square bg-black/30 border border-gray-700/50 backdrop-blur-md rounded-lg shadow-lg flex flex-col items-center justify-center text-white hover:bg-black/50 transition-all duration-200"
+                        aria-label="سحب الأموال"
+                    >
+                        <WithdrawIcon className="w-12 h-12 text-yellow-300 transition-transform duration-200 group-hover:scale-110" />
+                        <span className="text-base mt-1.5 transition-colors duration-200 group-hover:text-yellow-300">سحب الأموال</span>
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };

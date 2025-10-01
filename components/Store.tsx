@@ -14,14 +14,23 @@ const countersForSale: Counter[] = [
     { id: 2, name: 'عداد 1000 نقطة', points: 1000, price: 2800, priceCurrency: 'points' },
     { id: 3, name: 'عداد 5000 نقطة', points: 5000, price: 13000, priceCurrency: 'points' },
     { id: 4, name: 'عداد 10,000 نقطة', points: 10000, price: 25000, priceCurrency: 'points' },
-    { id: 5, name: 'عداد 500 جوهرة', jewels: 500, price: 10000, priceCurrency: 'jewels' },
+    { id: 5, name: 'عداد 500 جوهرة', jewels: 500, price: 80000, priceCurrency: 'jewels' },
 ];
 
 const Store: React.FC<StoreProps> = ({ onBack, onPurchase, userPoints, userJewels }) => {
     return (
         <div className="bg-black/30 border border-gray-700/50 rounded-2xl shadow-lg p-6 flex flex-col justify-center items-center backdrop-blur-sm text-center mt-6 animate-fade-in">
-            <StoreIcon className="w-16 h-16 mx-auto text-yellow-400 mb-3" />
-            <h2 className="text-3xl font-bold text-white mb-4">متجر العدادات</h2>
+            <div className="relative w-full flex flex-col items-center mb-4">
+                <button
+                    onClick={onBack}
+                    className="absolute right-0 top-0 p-2 text-yellow-300 rounded-full hover:bg-white/10 transition-colors"
+                    aria-label="عودة"
+                >
+                    <ChevronIcon className="w-7 h-7 transform rotate-180" />
+                </button>
+                <StoreIcon className="w-16 h-16 mx-auto text-yellow-400 mb-3" />
+                <h2 className="text-3xl font-bold text-white">متجر العدادات</h2>
+            </div>
             
             <div className="w-full flex flex-col gap-4 my-4">
                 {countersForSale.map((counter) => {
@@ -74,14 +83,6 @@ const Store: React.FC<StoreProps> = ({ onBack, onPurchase, userPoints, userJewel
                     );
                 })}
             </div>
-
-            <button
-                onClick={onBack}
-                className="w-full flex items-center justify-center gap-2 mt-4 py-3 px-6 rounded-full font-semibold text-lg transition-all duration-300 transform bg-black border border-gray-700 text-yellow-300 hover:bg-gray-900 shadow-lg"
-            >
-                <span>عودة</span>
-                <ChevronIcon className="w-6 h-6 transform rotate-180" />
-            </button>
         </div>
     );
 };
