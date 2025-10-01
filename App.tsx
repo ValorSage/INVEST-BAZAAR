@@ -815,36 +815,25 @@ const App: React.FC = () => {
                                 <div className="bg-black/40 border border-gray-700/50 rounded-2xl shadow-lg p-4 backdrop-blur-sm">
                                     {/* Full Name */}
                                     <div className="flex items-center justify-between py-3 border-b border-gray-700">
-                                        <button onClick={() => setShowNameChangeModal(true)} className="p-2 text-gray-400 hover:text-white">
-                                            <PencilIcon className="w-5 h-5" />
-                                        </button>
-                                        <div className="text-right flex-grow flex items-center justify-end gap-3">
+                                        <div className="text-right flex-grow flex items-center gap-3">
+                                            <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
+                                                <UserIcon className="w-6 h-6 text-gray-200" />
+                                            </div>
                                             <div>
                                                 <p className="font-semibold text-gray-100">الاسم الكامل</p>
                                                 <p className="text-gray-300">{profileName}</p>
                                             </div>
-                                            <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
-                                                <UserIcon className="w-6 h-6 text-gray-200" />
-                                            </div>
                                         </div>
+                                        <button onClick={() => setShowNameChangeModal(true)} className="p-2 text-gray-400 hover:text-white">
+                                            <PencilIcon className="w-5 h-5" />
+                                        </button>
                                     </div>
                                     {/* Phone Number */}
                                     <div className="flex items-center justify-between py-3 border-b border-gray-700">
-                                        {isEditingPhone ? (
-                                            <div className="flex items-center gap-1">
-                                                <button onClick={handleSavePhone} className="p-2 text-green-500 hover:text-green-400 transition-colors">
-                                                    <CheckIcon className="w-6 h-6" />
-                                                </button>
-                                                <button onClick={handleCancelEditPhone} className="p-2 text-red-500 hover:text-red-400 transition-colors">
-                                                    <XIcon className="w-6 h-6" />
-                                                </button>
+                                        <div className="text-right flex-grow flex items-center gap-3">
+                                            <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
+                                                <PhoneIcon className="w-6 h-6 text-gray-200" />
                                             </div>
-                                        ) : (
-                                            <button onClick={() => setIsEditingPhone(true)} className="p-2 text-gray-400 hover:text-white" disabled={currentUser.isVerified}>
-                                                <PencilIcon className={`w-5 h-5 ${currentUser.isVerified && 'opacity-50'}`} />
-                                            </button>
-                                        )}
-                                        <div className="text-right flex-grow flex items-center justify-end gap-3">
                                             <div>
                                                 <p className="font-semibold text-gray-100">رقم الهاتف</p>
                                                 {isEditingPhone && !currentUser.isVerified ? (
@@ -859,40 +848,51 @@ const App: React.FC = () => {
                                                     <p className="text-gray-300">{profilePhone}</p>
                                                 )}
                                             </div>
-                                            <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
-                                                <PhoneIcon className="w-6 h-6 text-gray-200" />
-                                            </div>
                                         </div>
+                                        {isEditingPhone ? (
+                                            <div className="flex items-center gap-1">
+                                                <button onClick={handleSavePhone} className="p-2 text-green-500 hover:text-green-400 transition-colors">
+                                                    <CheckIcon className="w-6 h-6" />
+                                                </button>
+                                                <button onClick={handleCancelEditPhone} className="p-2 text-red-500 hover:text-red-400 transition-colors">
+                                                    <XIcon className="w-6 h-6" />
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <button onClick={() => setIsEditingPhone(true)} className="p-2 text-gray-400 hover:text-white" disabled={currentUser.isVerified}>
+                                                <PencilIcon className={`w-5 h-5 ${currentUser.isVerified && 'opacity-50'}`} />
+                                            </button>
+                                        )}
                                     </div>
                                     {/* Email */}
                                     <div className="flex items-center justify-between py-3 border-b border-gray-700">
-                                        <div className="w-10 h-10"></div> {/* Spacer */}
-                                        <div className="text-right flex-grow flex items-center justify-end gap-3">
+                                        <div className="text-right flex-grow flex items-center gap-3">
+                                            <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
+                                                <MailIcon className="w-6 h-6 text-gray-200" />
+                                            </div>
                                             <div>
                                                 <p className="font-semibold text-gray-100">البريد الإلكتروني</p>
                                                 <p className="text-gray-300">{profileEmail}</p>
                                             </div>
-                                            <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
-                                                <MailIcon className="w-6 h-6 text-gray-200" />
-                                            </div>
                                         </div>
+                                        <div className="w-10 h-10"></div> {/* Spacer */}
                                     </div>
                                     {/* User ID */}
                                     <div className="flex items-center justify-between py-3">
+                                        <div className="text-right flex-grow flex items-center gap-3">
+                                            <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
+                                                <IdIcon className="w-6 h-6 text-gray-200" />
+                                            </div>
+                                            <div>
+                                                <p className="font-semibold text-gray-100">معرّف المستخدم</p>
+                                                <p className="text-gray-300 tracking-wider">{currentUser.userId}</p>
+                                            </div>
+                                        </div>
                                         <div className="relative p-2">
                                             <span onClick={handleCopyUserId} className="material-symbols-outlined text-gray-400 hover:text-white transition-colors cursor-pointer">
                                                 content_copy
                                             </span>
                                             {copied && <span className="absolute -top-6 -right-5 text-xs bg-slate-800 text-white px-2 py-0.5 rounded whitespace-nowrap">تم النسخ!</span>}
-                                        </div>
-                                        <div className="text-right flex-grow flex items-center justify-end gap-3">
-                                            <div>
-                                                <p className="font-semibold text-gray-100">معرّف المستخدم</p>
-                                                <p className="text-gray-300 tracking-wider">{currentUser.userId}</p>
-                                            </div>
-                                            <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
-                                                <IdIcon className="w-6 h-6 text-gray-200" />
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -906,12 +906,14 @@ const App: React.FC = () => {
                                 </div>
                                 <div className="bg-black/40 border border-gray-700/50 rounded-2xl shadow-lg p-4 backdrop-blur-sm">
                                     <div className="flex items-center justify-between py-2">
-                                        <div className="text-right">
-                                            <p className="font-semibold text-gray-100">كلمة المرور</p>
-                                            <p className="text-gray-300 text-sm">غير متاحة لحسابات google</p>
-                                        </div>
-                                        <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
-                                            <LockIcon className="w-6 h-6 text-amber-600" />
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
+                                                <LockIcon className="w-6 h-6 text-amber-600" />
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="font-semibold text-gray-100">كلمة المرور</p>
+                                                <p className="text-gray-300 text-sm">غير متاحة لحسابات google</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -927,38 +929,38 @@ const App: React.FC = () => {
                                     {/* Account Verification */}
                                      <div className="flex items-center justify-between py-3 border-b border-gray-700">
                                         {currentUser.isVerified ? (
-                                            <>
-                                                <div className="text-right flex-grow">
-                                                    <p className="font-semibold text-gray-100">الحساب موثق</p>
-                                                </div>
+                                            <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
                                                     <ShieldCheckIcon className="w-6 h-6 text-green-500" />
                                                 </div>
-                                            </>
+                                                <div className="text-right flex-grow">
+                                                    <p className="font-semibold text-gray-100">الحساب موثق</p>
+                                                </div>
+                                            </div>
                                         ) : (
                                             <button 
                                                 onClick={handleOpenVerification}
                                                 className="w-full flex items-center justify-between text-right"
                                             >
-                                                <ChevronIcon className="w-6 h-6 text-gray-400" />
                                                 <div className="flex items-center gap-3">
-                                                    <p className="font-semibold text-gray-100">توثيق الحساب</p>
                                                     <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
                                                         <ShieldExclamationIcon className="w-6 h-6 text-red-500" />
                                                     </div>
+                                                    <p className="font-semibold text-gray-100">توثيق الحساب</p>
                                                 </div>
+                                                <ChevronIcon className="w-6 h-6 text-gray-400" />
                                             </button>
                                         )}
                                     </div>
                                     {/* Terms of Use */}
                                     <div className="flex items-center justify-between py-3">
-                                        <ChevronIcon className="w-6 h-6 text-gray-400" />
                                         <div className="flex items-center gap-3">
-                                            <p className="font-semibold text-gray-100">شروط الاستخدام</p>
                                             <div className="w-10 h-10 flex items-center justify-center bg-black/30 rounded-full">
                                                 <DocumentIcon className="w-6 h-6 text-gray-200" />
                                             </div>
+                                            <p className="font-semibold text-gray-100">شروط الاستخدام</p>
                                         </div>
+                                        <ChevronIcon className="w-6 h-6 text-gray-400" />
                                     </div>
                                 </div>
                             </section>
