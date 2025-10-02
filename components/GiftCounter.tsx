@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { User, Counter } from '../types';
-import { ChevronIcon, UserIcon, SearchIcon, CoinIcon, DiamondIcon } from './icons';
+import { ChevronIcon, UserIcon, SearchIcon, DiamondIcon } from './icons';
 
 const countersForSale: Counter[] = [
-    { id: 1, name: 'عداد 500 نقطة', points: 500, price: 1500, priceCurrency: 'points' },
-    { id: 2, name: 'عداد 1000 نقطة', points: 1000, price: 2800, priceCurrency: 'points' },
-    { id: 3, name: 'عداد 5000 نقطة', points: 5000, price: 13000, priceCurrency: 'points' },
-    { id: 4, name: 'عداد 10,000 نقطة', points: 10000, price: 25000, priceCurrency: 'points' },
+    { id: 1, name: 'عداد 500 نقطة', points: 500, price: 75000, priceCurrency: 'points' },
+    { id: 2, name: 'عداد 1000 نقطة', points: 1000, price: 180000, priceCurrency: 'points' },
+    { id: 3, name: 'عداد 5000 نقطة', points: 5000, price: 750000, priceCurrency: 'points' },
+    { id: 4, name: 'عداد 10,000 نقطة', points: 10000, price: 1500000, priceCurrency: 'points' },
     { id: 5, name: 'عداد 500 جوهرة', jewels: 500, price: 80000, priceCurrency: 'jewels' },
 ];
 
@@ -136,14 +136,14 @@ const GiftCounter: React.FC<GiftCounterProps> = ({ onBack, onGift, allUsers, cur
                         : currentUserJewels >= counter.price;
                     return (
                         <div key={counter.id} className="bg-black/40 p-3 rounded-lg border border-gray-700/60 w-full flex items-center justify-between text-right">
-                            <div className="flex flex-col items-end gap-1">
+                            <div className="flex flex-col items-start gap-1">
                                 <p className="font-bold text-white">{counter.name}</p>
                                 <div className="flex items-center gap-1.5 font-bold text-sm">
                                     <span className={counter.priceCurrency === 'points' ? 'text-yellow-300' : 'text-cyan-400'}>
                                         {counter.price.toLocaleString()}
                                     </span>
                                      {counter.priceCurrency === 'points' ? (
-                                        <CoinIcon className="w-4 h-4 text-yellow-300" />
+                                        null
                                     ) : (
                                         <DiamondIcon className="w-4 h-4 text-cyan-400" />
                                     )}

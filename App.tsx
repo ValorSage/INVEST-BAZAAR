@@ -142,7 +142,7 @@ const App: React.FC = () => {
 
     useEffect(() => {
         if (currentUser && !notifications.some(n => n.message.includes("أهلاً بك"))) {
-            addNotification(`أهلاً بك في لعبة عداد النقاط، ${currentUser.name}!`, 'general');
+            addNotification(`أهلاً بك في بازار علي بابا، ${currentUser.name}!`, 'general');
         }
     }, [currentUser]);
 
@@ -150,7 +150,7 @@ const App: React.FC = () => {
         if (activationStartTime) {
             const timeSinceActivation = Date.now() - activationStartTime;
             if (timeSinceActivation >= COOLDOWN_PERIOD) {
-                const message = `تمت إضافة ${jewelRewardPerCycle} جوهرة و ${pointRewardPerCycle.toLocaleString()} نقطة إلى رصيدك!`;
+                const message = `تم إضافة ${jewelRewardPerCycle} جوهرة`;
                 addNotification(message, 'counter');
                 setJewels(prev => prev + jewelRewardPerCycle);
                 setPoints(prev => prev + pointRewardPerCycle);
@@ -964,17 +964,6 @@ const App: React.FC = () => {
                                     </div>
                                 </div>
                             </section>
-                            
-                            {/* Logout Button */}
-                            <section className="mt-8">
-                                <button
-                                    onClick={handleLogoutClick}
-                                    className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg font-semibold text-white bg-red-600/80 hover:bg-red-600 transition-colors shadow-lg"
-                                >
-                                    <LogoutIcon className="w-6 h-6" />
-                                    <span>تسجيل الخروج</span>
-                                </button>
-                            </section>
                         </div>
                     </div>
                     {showNameChangeModal && <NameChangeModalComponent />}
@@ -1054,65 +1043,86 @@ const App: React.FC = () => {
             );
         }
 
-        // MAIN MENU SCREEN - UPDATED THEME
+        // MAIN MENU (SETTINGS) SCREEN - NEW DESIGN
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center p-4">
-                <div className="w-full max-w-md mx-auto bg-[#a0770b] border border-[#7c5e0a] rounded-2xl p-6 text-center animate-fade-in-fast shadow-2xl">
-                    <div className="flex items-center justify-between mb-6">
-                        <button
-                            onClick={handleBackToMain}
-                            className="text-white p-2 rounded-full hover:bg-white/10 transition-colors"
-                            aria-label="العودة للعبة"
-                        >
-                            <ExitIcon className="w-7 h-7" />
-                        </button>
-                    
-                        <div className="flex items-center gap-4">
-                            <p className="text-xl font-bold text-white select-none">{profileName}</p>
-                            <div className="w-20 h-20 rounded-full flex items-center justify-center bg-[#3e3e3e]">
+            <>
+                <div className="fixed inset-0 font-sans animate-fade-in-fast overflow-y-auto" style={{ background: 'radial-gradient(circle, #FBBF24 0%, #F59E0B 100%)' }}>
+                    <div className="container mx-auto max-w-lg min-h-screen flex flex-col p-4 pb-8">
+                        {/* Header */}
+                        <header className="relative flex items-center justify-center py-2">
+                            <h1 className="text-2xl font-bold text-slate-900">إعدادات</h1>
+                            <button onClick={handleBackToMain} className="absolute right-0 top-1/2 -translate-y-1/2 p-2 text-slate-800" aria-label="عودة">
+                                <ArrowRightIcon className="w-7 h-7" />
+                            </button>
+                        </header>
+
+                        {/* User Info Display */}
+                        <div className="flex flex-col items-center gap-2 py-4">
+                            <div className="w-20 h-20 rounded-full border-4 border-amber-500 shadow-lg p-1 bg-white/20">
                                 {profilePicture ? (
                                     <img src={profilePicture} alt="صورة الملف الشخصي" className="w-full h-full rounded-full object-cover" />
                                 ) : (
-                                    <UserIcon className="w-12 h-12 text-[#2a2a2a]" />
+                                    <div className="w-full h-full rounded-full bg-amber-100 flex items-center justify-center">
+                                        <UserIcon className="w-10 h-10 text-amber-600" />
+                                    </div>
                                 )}
                             </div>
+                            <p className="text-2xl font-bold text-slate-900">{profileName}</p>
+                        </div>
+
+                        {/* Main card */}
+                        <div className="bg-[#6a500b]/80 border border-[#503d08]/80 rounded-2xl shadow-lg p-3 space-y-2">
+                            {/* Menu Items */}
+                            <div className="bg-[#8f6d0b] rounded-lg text-white">
+                                 <button 
+                                    onClick={handleOpenUserProfile}
+                                    className="w-full flex items-center justify-between text-right p-4 hover:bg-[#a0770b]/60 transition-colors border-b border-white/10"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <UserIcon className="w-6 h-6 text-yellow-300" />
+                                        <span className="font-semibold">ملف المستخدم</span>
+                                    </div>
+                                    <ChevronIcon className="w-6 h-6 text-gray-300" />
+                                </button>
+                                <button 
+                                    onClick={handleOpenNotificationsLogScreen}
+                                    className="w-full flex items-center justify-between text-right p-4 hover:bg-[#a0770b]/60 transition-colors border-b border-white/10"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <BellIcon className="w-6 h-6 text-yellow-300" />
+                                        <span className="font-semibold">سجل الإشعارات</span>
+                                    </div>
+                                    <ChevronIcon className="w-6 h-6 text-gray-300" />
+                                </button>
+                                <button 
+                                    onClick={() => alert('سيتم تفعيل هذه الميزة قريباً!')}
+                                    className="w-full flex items-center justify-between text-right p-4 hover:bg-[#a0770b]/60 transition-colors"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <HeadsetIcon className="w-6 h-6 text-yellow-300" />
+                                        <span className="font-semibold">تواصل مع دعم الفني</span>
+                                    </div>
+                                    <ChevronIcon className="w-6 h-6 text-gray-300" />
+                                </button>
+                            </div>
+                            
+                             <div className="bg-[#8f6d0b] rounded-lg text-white">
+                                <button 
+                                    onClick={handleLogoutClick}
+                                    className="w-full flex items-center justify-between text-right p-4 hover:bg-[#a0770b]/60 transition-colors"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <LogoutIcon className="w-6 h-6 text-red-400" />
+                                        <span className="font-semibold text-red-300">تسجيل الخروج</span>
+                                    </div>
+                                    <ChevronIcon className="w-6 h-6 text-gray-300" />
+                                </button>
+                             </div>
                         </div>
                     </div>
-
-                    <div className="w-full flex flex-col gap-3">
-                        <button
-                            onClick={handleOpenUserProfile}
-                            className="w-full py-3 px-4 rounded-lg font-semibold text-lg transition-colors duration-200 bg-[#8f6d0b] text-white hover:bg-[#b88e2c] shadow-lg flex items-center justify-between"
-                        >
-                            <div className="flex items-center gap-3">
-                                <UserIcon className="w-6 h-6 text-[#f5b301]" />
-                                <span>ملف المستخدم</span>
-                            </div>
-                            <ChevronIcon className="w-6 h-6 text-gray-300 transform rotate-180" />
-                        </button>
-                        <button
-                            onClick={handleOpenNotificationsLogScreen}
-                            className="w-full py-3 px-4 rounded-lg font-semibold text-lg transition-colors duration-200 bg-[#8f6d0b] text-white hover:bg-[#b88e2c] shadow-lg flex items-center justify-between"
-                        >
-                            <div className="flex items-center gap-3">
-                                <BellIcon className="w-6 h-6 text-[#f5b301]" />
-                                <span>سجل الإشعارات</span>
-                            </div>
-                            <ChevronIcon className="w-6 h-6 text-gray-300 transform rotate-180" />
-                        </button>
-                        <button
-                            onClick={() => alert('سيتم تفعيل هذه الميزة قريباً!')}
-                            className="w-full py-3 px-4 rounded-lg font-semibold text-lg transition-colors duration-200 bg-[#8f6d0b] text-white hover:bg-[#b88e2c] shadow-lg flex items-center justify-between"
-                        >
-                            <div className="flex items-center gap-3">
-                                <HeadsetIcon className="w-6 h-6 text-[#f5b301]" />
-                                <span>تواصل مع دعم الفني</span>
-                            </div>
-                            <ChevronIcon className="w-6 h-6 text-gray-300 transform rotate-180" />
-                        </button>
-                    </div>
                 </div>
-            </div>
+                {logoutConfirmModal}
+            </>
         );
     }
 
@@ -1170,7 +1180,6 @@ const App: React.FC = () => {
                 <NotificationsPanel 
                     notifications={notifications}
                     onClose={handleToggleNotifications}
-                    onClear={handleClearNotifications}
                 />
             )}
             {logoutConfirmModal}

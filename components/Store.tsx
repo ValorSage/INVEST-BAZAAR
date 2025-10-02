@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronIcon, StoreIcon, CoinIcon, DiamondIcon } from './icons';
+import { ChevronIcon, StoreIcon, DiamondIcon } from './icons';
 import { Counter } from '../types';
 
 interface StoreProps {
@@ -10,10 +10,10 @@ interface StoreProps {
 }
 
 const countersForSale: Counter[] = [
-    { id: 1, name: 'عداد 500 نقطة', points: 500, price: 1500, priceCurrency: 'points' },
-    { id: 2, name: 'عداد 1000 نقطة', points: 1000, price: 2800, priceCurrency: 'points' },
-    { id: 3, name: 'عداد 5000 نقطة', points: 5000, price: 13000, priceCurrency: 'points' },
-    { id: 4, name: 'عداد 10,000 نقطة', points: 10000, price: 25000, priceCurrency: 'points' },
+    { id: 1, name: 'عداد 500 نقطة', points: 500, price: 75000, priceCurrency: 'points' },
+    { id: 2, name: 'عداد 1000 نقطة', points: 1000, price: 180000, priceCurrency: 'points' },
+    { id: 3, name: 'عداد 5000 نقطة', points: 5000, price: 750000, priceCurrency: 'points' },
+    { id: 4, name: 'عداد 10,000 نقطة', points: 10000, price: 1500000, priceCurrency: 'points' },
     { id: 5, name: 'عداد 500 جوهرة', jewels: 500, price: 80000, priceCurrency: 'jewels' },
 ];
 
@@ -43,22 +43,22 @@ const Store: React.FC<StoreProps> = ({ onBack, onPurchase, userPoints, userJewel
                             <div className="flex items-center justify-between">
                                 <div className="flex flex-col items-start gap-1">
                                     {counter.points && (
-                                        <div className="flex items-center gap-2 text-sm text-yellow-300">
-                                            <CoinIcon className="w-4 h-4" />
-                                            <span className="font-semibold">+{counter.points.toLocaleString()} نقطة يومياً</span>
+                                        <div className="text-right">
+                                            <span className="font-semibold text-sm text-yellow-300">{counter.points.toLocaleString()} نقطة يومياً</span>
+                                            <p className="text-xs text-gray-400 mt-1">اشتراك سنوي</p>
                                         </div>
                                     )}
                                     {counter.jewels && (
                                         <div className="flex items-center gap-2 text-sm text-cyan-400">
                                             <DiamondIcon className="w-4 h-4" />
-                                            <span className="font-semibold">+{counter.jewels.toLocaleString()} جوهرة يومياً</span>
+                                            <span className="font-semibold">{counter.jewels.toLocaleString()} جوهرة يومياً</span>
                                         </div>
                                     )}
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <div className="flex items-center gap-1.5 font-bold">
                                         {counter.priceCurrency === 'points' ? (
-                                            <CoinIcon className="w-5 h-5 text-yellow-300" />
+                                            null
                                         ) : (
                                             <DiamondIcon className="w-5 h-5 text-cyan-400" />
                                         )}

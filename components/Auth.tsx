@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { User } from '../types';
 import { Country, countries } from '../data/countries';
-import { UserIcon, MailIcon, LockIcon, PhoneFilledIcon } from './icons';
+import { UserIcon, MailIcon, LockIcon, PhoneFilledIcon, ArrowRightIcon } from './icons';
 import CountryCodePicker from './CountryCodePicker';
 
 interface AuthProps {
@@ -135,125 +135,122 @@ const Auth: React.FC<AuthProps> = ({ onLoginSuccess }) => {
         return String.fromCodePoint(...codePoints);
     }
 
-    const renderForm = () => {
-        const isLogin = view === 'login';
-        return (
-            <div className="w-full max-w-sm mx-auto bg-black/40 border border-gray-700/50 rounded-2xl shadow-lg p-6 flex flex-col justify-center items-center backdrop-blur-sm text-center animate-fade-in-fast">
-                <h1 className="text-3xl font-bold text-white mb-4">{isLogin ? 'تسجيل الدخول' : 'إنشاء حساب'}</h1>
-                
-                <div className="w-full flex justify-center bg-black/50 p-1 rounded-lg mb-6">
-                    <button
-                        onClick={() => handleAuthMethodChange('email')}
-                        className={`w-1/2 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-semibold transition-colors ${authMethod === 'email' ? 'bg-yellow-400 text-black' : 'text-gray-300'}`}
-                    >
-                        <MailIcon className="w-5 h-5" /> البريد الإلكتروني
-                    </button>
-                    <button
-                        onClick={() => handleAuthMethodChange('phone')}
-                        className={`w-1/2 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-semibold transition-colors ${authMethod === 'phone' ? 'bg-yellow-400 text-black' : 'text-gray-300'}`}
-                    >
-                        <PhoneFilledIcon className="w-5 h-5" /> رقم الهاتف
-                    </button>
-                </div>
-
-                {error && <p className="bg-red-500/20 text-red-300 text-sm py-2 px-4 rounded-md mb-4 w-full">{error}</p>}
-                <form onSubmit={isLogin ? handleLogin : handleSignup} className="w-full flex flex-col gap-4">
-                    {!isLogin && (
-                        <div className="relative">
-                            <UserIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                            <input
-                                type="text"
-                                placeholder="الاسم"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                            />
-                        </div>
-                    )}
-                    
-                    {authMethod === 'email' ? (
-                        <div className="relative">
-                            <MailIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                            <input
-                                type="email"
-                                placeholder="البريد الإلكتروني"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                            />
-                        </div>
-                    ) : (
-                        <div className="flex items-center gap-2">
-                            <input
-                                type="tel"
-                                placeholder="رقم الهاتف"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-                                className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-left"
-                                dir="ltr"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setIsPickerOpen(true)}
-                                className="flex items-center justify-center gap-2 bg-black/50 border border-gray-600 rounded-lg py-2.5 px-3 text-white placeholder-gray-400"
-                            >
-                                <span className="text-xl">{getCountryFlagEmoji(country.code)}</span>
-                                <span className="text-sm font-mono">{country.dial_code}</span>
-                            </button>
-                        </div>
-                    )}
-
-                    <div className="relative">
-                        <LockIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                        <input
-                            type="password"
-                            placeholder="كلمة المرور"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="w-full py-3 mt-2 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform bg-gradient-to-br from-gray-800 to-black text-yellow-300 border-t border-gray-600 hover:shadow-yellow-400/20 hover:scale-105"
-                    >
-                        {isLogin ? 'دخول' : 'تسجيل'}
-                    </button>
-                </form>
-                <button onClick={() => setView(isLogin ? 'signup' : 'login')} className="mt-6 text-sm text-yellow-300 hover:underline">
-                    {isLogin ? 'ليس لديك حساب؟ إنشاء حساب جديد' : 'هل لديك حساب بالفعل؟ تسجيل الدخول'}
-                </button>
-                 <button onClick={() => setView('welcome')} className="mt-2 text-sm text-gray-400 hover:underline">
-                    العودة
-                </button>
-            </div>
-        );
-    };
-
-    const renderWelcome = () => (
-        <div className="w-full max-w-sm mx-auto bg-black/40 border border-gray-700/50 rounded-2xl shadow-lg p-8 flex flex-col justify-center items-center backdrop-blur-sm text-center animate-fade-in-fast">
-             <h1 className="text-3xl font-bold text-white">أهلاً بك في</h1>
-             <h2 className="text-4xl font-bold text-yellow-300 mb-8">لعبة عداد النقاط</h2>
-             <div className="w-full flex flex-col gap-4">
-                <button
-                    onClick={() => { setView('login'); resetForm(); }}
-                    className="w-full py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform bg-gradient-to-br from-gray-800 to-black text-yellow-300 border-t border-gray-600 hover:shadow-yellow-400/20 hover:scale-105"
-                >
-                    تسجيل الدخول
-                </button>
-                <button
-                    onClick={() => { setView('signup'); resetForm(); }}
-                    className="w-full py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300 bg-yellow-400/90 text-black hover:bg-yellow-300 hover:scale-105"
-                >
-                    إنشاء حساب جديد
-                </button>
-            </div>
-        </div>
-    );
+    const isLogin = view === 'login';
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-4">
-           {view === 'welcome' ? renderWelcome() : renderForm()}
+            <div className="w-full max-w-sm mx-auto bg-black/40 border border-gray-700/50 rounded-2xl shadow-lg p-8 backdrop-blur-sm text-center animate-fade-in-fast transition-all duration-300">
+                {view === 'welcome' ? (
+                    <div key="welcome" className="animate-fade-in-fast">
+                        <h1 className="text-4xl font-bold text-yellow-300 mb-12">أهلا بك بازار علي بابا</h1>
+                        <div className="w-full flex flex-col gap-4">
+                            <button
+                                onClick={() => { setView('signup'); resetForm(); }}
+                                className="w-full py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform bg-yellow-400 text-black hover:bg-yellow-300 hover:scale-105 shadow-lg"
+                            >
+                                إنشاء حساب جديد
+                            </button>
+                             <button
+                                onClick={() => { setView('login'); resetForm(); }}
+                                className="w-full py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform bg-black/40 text-yellow-300 border border-yellow-400/50 hover:bg-black/60 hover:scale-105"
+                            >
+                                تسجيل الدخول
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <div key="form" className="animate-fade-in-fast relative">
+                         <button onClick={() => setView('welcome')} className="absolute -top-4 -right-4 p-2 text-gray-400 hover:text-white transition-colors" aria-label="العودة">
+                            <ArrowRightIcon className="w-6 h-6" />
+                        </button>
+
+                        <h1 className="text-3xl font-bold text-white mb-4">{isLogin ? 'تسجيل الدخول' : 'إنشاء حساب'}</h1>
+                        
+                        <div className="w-full flex justify-center bg-black/50 p-1 rounded-lg mb-6">
+                            <button
+                                onClick={() => handleAuthMethodChange('email')}
+                                className={`w-1/2 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-semibold transition-colors ${authMethod === 'email' ? 'bg-yellow-400 text-black' : 'text-gray-300'}`}
+                            >
+                                <MailIcon className="w-5 h-5" /> البريد الإلكتروني
+                            </button>
+                            <button
+                                onClick={() => handleAuthMethodChange('phone')}
+                                className={`w-1/2 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-semibold transition-colors ${authMethod === 'phone' ? 'bg-yellow-400 text-black' : 'text-gray-300'}`}
+                            >
+                                <PhoneFilledIcon className="w-5 h-5" /> رقم الهاتف
+                            </button>
+                        </div>
+
+                        {error && <p className="bg-red-500/20 text-red-300 text-sm py-2 px-4 rounded-md mb-4 w-full">{error}</p>}
+                        
+                        <form onSubmit={isLogin ? handleLogin : handleSignup} className="w-full flex flex-col gap-4">
+                            {!isLogin && (
+                                <div className="relative">
+                                    <UserIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                    <input
+                                        type="text"
+                                        placeholder="الاسم"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                    />
+                                </div>
+                            )}
+                            
+                            {authMethod === 'email' ? (
+                                <div className="relative">
+                                    <MailIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                    <input
+                                        type="email"
+                                        placeholder="البريد الإلكتروني"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                    />
+                                </div>
+                            ) : (
+                                <div className="flex items-center gap-2" dir="ltr">
+                                    <input
+                                        type="tel"
+                                        placeholder="رقم الهاتف"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                                        className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 px-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-left"
+                                    />
+                                     <button
+                                        type="button"
+                                        onClick={() => setIsPickerOpen(true)}
+                                        className="flex-shrink-0 flex items-center justify-center gap-2 bg-black/50 border border-gray-600 rounded-lg h-full px-3 text-white placeholder-gray-400 hover:bg-black/70 transition-colors"
+                                    >
+                                        <span className="text-xl">{getCountryFlagEmoji(country.code)}</span>
+                                        <span className="text-sm font-mono">{country.dial_code}</span>
+                                    </button>
+                                </div>
+                            )}
+
+                            <div className="relative">
+                                <LockIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                <input
+                                    type="password"
+                                    placeholder="كلمة المرور"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="w-full py-3 mt-2 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform bg-yellow-500 text-black hover:bg-yellow-400 hover:scale-105 shadow-lg"
+                            >
+                                {isLogin ? 'دخول' : 'تسجيل'}
+                            </button>
+                        </form>
+                        <button onClick={() => setView(isLogin ? 'signup' : 'login')} className="mt-6 text-sm text-yellow-300 hover:underline">
+                            {isLogin ? 'ليس لديك حساب؟ إنشاء حساب جديد' : 'هل لديك حساب بالفعل؟ تسجيل الدخول'}
+                        </button>
+                    </div>
+                )}
+            </div>
            <CountryCodePicker
                 isOpen={isPickerOpen}
                 onClose={() => setIsPickerOpen(false)}

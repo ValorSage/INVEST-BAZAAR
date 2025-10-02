@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BellIcon, ChevronIcon } from './icons';
 import { Notification } from '../types';
@@ -21,10 +22,9 @@ const formatTimeAgo = (timestamp: number): string => {
 interface NotificationsPanelProps {
     notifications: Notification[];
     onClose: () => void;
-    onClear: () => void;
 }
 
-const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ notifications, onClose, onClear }) => {
+const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ notifications, onClose }) => {
     return (
         <div 
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
@@ -59,18 +59,6 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ notifications, 
                         <p className="text-gray-400 py-8">لا توجد إشعارات جديدة.</p>
                     )}
                 </div>
-
-                {/* Footer */}
-                {notifications.length > 0 && (
-                    <div className="p-4 border-t border-gray-700/50">
-                        <button
-                            onClick={onClear}
-                            className="w-full py-2 px-4 rounded-lg font-semibold text-sm bg-red-800/50 text-red-300 hover:bg-red-800/80 transition-colors"
-                        >
-                            مسح جميع الإشعارات
-                        </button>
-                    </div>
-                )}
             </div>
         </div>
     );
