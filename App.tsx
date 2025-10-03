@@ -1057,7 +1057,7 @@ const App: React.FC = () => {
                         </header>
 
                         {/* User Info Display */}
-                        <div className="flex flex-col items-center gap-2 py-4">
+                        <div className="flex flex-col items-start gap-2 py-4">
                             <div className="w-20 h-20 rounded-full border-4 border-amber-500 shadow-lg p-1 bg-white/20">
                                 {profilePicture ? (
                                     <img src={profilePicture} alt="صورة الملف الشخصي" className="w-full h-full rounded-full object-cover" />
