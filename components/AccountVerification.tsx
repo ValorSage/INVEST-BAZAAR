@@ -217,7 +217,7 @@ const AccountVerification: React.FC<AccountVerificationProps> = ({ onBack, onVer
 
     const HelpModal = () => (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in-fast">
-            <div className="w-full max-w-xs bg-white rounded-2xl shadow-lg pt-8 pb-6 px-6 flex flex-col items-center text-center text-slate-800">
+            <div className="w-full max-w-xs bg-amber-400 rounded-2xl shadow-lg pt-8 pb-6 px-6 flex flex-col items-center text-center text-slate-800">
                 <h2 className="text-3xl font-bold mb-6">مساعدة</h2>
                 <p className="text-lg leading-relaxed mb-4">اختر دولتك من القائمة ثم أدخل رقم هاتفك.</p>
                 <div className="text-lg leading-relaxed mb-4 text-center">
@@ -226,7 +226,7 @@ const AccountVerification: React.FC<AccountVerificationProps> = ({ onBack, onVer
                 </div>
                 <button
                     onClick={() => setShowHelpModal(false)}
-                    className="mt-4 px-10 py-2 rounded-lg font-semibold text-lg text-blue-600 hover:bg-blue-100/70 transition-colors"
+                    className="mt-4 px-10 py-2 rounded-lg font-semibold text-lg text-blue-600 hover:bg-amber-500 transition-colors"
                 >
                     فهمت
                 </button>
