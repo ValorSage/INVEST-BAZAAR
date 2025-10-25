@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { BellIcon, ChevronIcon } from './icons';
+import { BellIcon, ArrowRightIcon } from './icons';
 import { Notification } from '../types';
 
 const formatTimeAgo = (timestamp: number): string => {
@@ -35,10 +34,10 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ notifications, 
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-700/50">
                     <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-700/50 transition-colors" aria-label="إغلاق الإشعارات">
-                        <ChevronIcon className="w-6 h-6 transform rotate-180 text-yellow-300" />
+                        <ArrowRightIcon className="w-6 h-6 text-white" />
                     </button>
                     <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                        <BellIcon className="w-6 h-6 text-yellow-300" />
+                        <BellIcon className="w-6 h-6 text-[#FFC107]" />
                         <span>الإشعارات</span>
                     </h2>
                      <div style={{ width: '40px' }}></div> {/* Spacer */}
@@ -50,13 +49,13 @@ const NotificationsPanel: React.FC<NotificationsPanelProps> = ({ notifications, 
                         <ul className="space-y-3 text-right">
                             {notifications.map(n => (
                                 <li key={n.id} className="bg-black/40 p-3 rounded-lg">
-                                    <p className="text-gray-200">{n.message}</p>
-                                    <p className="text-xs text-gray-400 mt-1">{formatTimeAgo(n.timestamp)}</p>
+                                    <p className="text-white">{n.message}</p>
+                                    <p className="text-xs text-white mt-1">{formatTimeAgo(n.timestamp)}</p>
                                 </li>
                             ))}
                         </ul>
                     ) : (
-                        <p className="text-gray-400 py-8">لا توجد إشعارات جديدة.</p>
+                        <p className="text-[#BEBEBE] py-8">لا توجد إشعارات جديدة.</p>
                     )}
                 </div>
             </div>

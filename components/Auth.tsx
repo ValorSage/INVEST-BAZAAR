@@ -1,8 +1,9 @@
+
 import React, { useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { User } from '../types';
 import { Country, countries } from '../data/countries';
-import { UserIcon, MailIcon, LockIcon, PhoneFilledIcon, ArrowRightIcon } from './icons';
+import { UserIcon, MailIcon, PhoneFilledIcon, ArrowRightIcon, EyeIcon, EyeSlashIcon } from './icons';
 import CountryCodePicker from './CountryCodePicker';
 
 interface AuthProps {
@@ -38,6 +39,7 @@ const Auth: React.FC<AuthProps> = ({ onLoginSuccess }) => {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [country, setCountry] = useState<Country>(countries.find(c => c.code === 'IQ')!);
     const [isPickerOpen, setIsPickerOpen] = useState(false);
     const [error, setError] = useState('');
@@ -48,6 +50,7 @@ const Auth: React.FC<AuthProps> = ({ onLoginSuccess }) => {
         setPhone('');
         setPassword('');
         setError('');
+        setShowPassword(false);
     };
 
     const handleAuthMethodChange = (method: 'email' | 'phone') => {
@@ -85,6 +88,7 @@ const Auth: React.FC<AuthProps> = ({ onLoginSuccess }) => {
             isVerified: false,
             nameChangeCount: 0,
             profilePictureChangeCount: 0,
+            profileBannerChangeCount: 0,
             ...(authMethod === 'email' && { email }),
             ...(authMethod === 'phone' && { phone: `${country.dial_code}${phone}` }),
         };
@@ -139,20 +143,20 @@ const Auth: React.FC<AuthProps> = ({ onLoginSuccess }) => {
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-4">
-            <div className="w-full max-w-sm mx-auto bg-black/40 border border-gray-700/50 rounded-2xl shadow-lg p-8 backdrop-blur-sm text-center animate-fade-in-fast transition-all duration-300">
+            <div className="w-full max-w-sm mx-auto bg-black border border-gray-700/50 rounded-2xl shadow-lg p-8 text-center animate-fade-in-fast transition-all duration-300">
                 {view === 'welcome' ? (
                     <div key="welcome" className="animate-fade-in-fast">
-                        <h1 className="text-4xl font-bold text-yellow-300 mb-12">أهلا بك بازار علي بابا</h1>
+                        <h1 className="text-4xl font-bold text-[#FFC107] mb-12">URUK</h1>
                         <div className="w-full flex flex-col gap-4">
                             <button
                                 onClick={() => { setView('signup'); resetForm(); }}
-                                className="w-full py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform bg-yellow-400 text-black hover:bg-yellow-300 hover:scale-105 shadow-lg"
+                                className="w-full py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform bg-[#FFC107] text-slate-900 hover:bg-[#ffca28] hover:scale-105 shadow-lg"
                             >
                                 إنشاء حساب جديد
                             </button>
                              <button
                                 onClick={() => { setView('login'); resetForm(); }}
-                                className="w-full py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform bg-black/40 text-yellow-300 border border-yellow-400/50 hover:bg-black/60 hover:scale-105"
+                                className="w-full py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform bg-black/40 text-[#FFC107] border border-[#FFC107]/50 hover:bg-black/60 hover:scale-105"
                             >
                                 تسجيل الدخول
                             </button>
@@ -160,22 +164,22 @@ const Auth: React.FC<AuthProps> = ({ onLoginSuccess }) => {
                     </div>
                 ) : (
                     <div key="form" className="animate-fade-in-fast relative">
-                         <button onClick={() => setView('welcome')} className="absolute -top-4 -right-4 p-2 text-gray-400 hover:text-white transition-colors" aria-label="العودة">
+                         <button onClick={() => setView('welcome')} className="absolute -top-2 -right-2 p-2 text-white hover:opacity-75 transition-opacity" aria-label="العودة">
                             <ArrowRightIcon className="w-6 h-6" />
                         </button>
 
-                        <h1 className="text-3xl font-bold text-white mb-4">{isLogin ? 'تسجيل الدخول' : 'إنشاء حساب'}</h1>
+                        <h1 className="text-3xl font-bold text-white mb-8">{isLogin ? 'تسجيل الدخول' : 'إنشاء حساب'}</h1>
                         
                         <div className="w-full flex justify-center bg-black/50 p-1 rounded-lg mb-6">
                             <button
                                 onClick={() => handleAuthMethodChange('email')}
-                                className={`w-1/2 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-semibold transition-colors ${authMethod === 'email' ? 'bg-yellow-400 text-black' : 'text-gray-300'}`}
+                                className={`w-1/2 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-semibold transition-colors ${authMethod === 'email' ? 'bg-[#FFC107] text-slate-900' : 'text-[#BEBEBE]'}`}
                             >
                                 <MailIcon className="w-5 h-5" /> البريد الإلكتروني
                             </button>
                             <button
                                 onClick={() => handleAuthMethodChange('phone')}
-                                className={`w-1/2 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-semibold transition-colors ${authMethod === 'phone' ? 'bg-yellow-400 text-black' : 'text-gray-300'}`}
+                                className={`w-1/2 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-semibold transition-colors ${authMethod === 'phone' ? 'bg-[#FFC107] text-slate-900' : 'text-[#BEBEBE]'}`}
                             >
                                 <PhoneFilledIcon className="w-5 h-5" /> رقم الهاتف
                             </button>
@@ -186,26 +190,26 @@ const Auth: React.FC<AuthProps> = ({ onLoginSuccess }) => {
                         <form onSubmit={isLogin ? handleLogin : handleSignup} className="w-full flex flex-col gap-4">
                             {!isLogin && (
                                 <div className="relative">
-                                    <UserIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                    <UserIcon className="w-5 h-5 text-[#BEBEBE] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                                     <input
                                         type="text"
                                         placeholder="الاسم"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                        className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-[#BEBEBE] focus:outline-none focus:ring-2 focus:ring-[#FFC107]"
                                     />
                                 </div>
                             )}
                             
                             {authMethod === 'email' ? (
                                 <div className="relative">
-                                    <MailIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                    <MailIcon className="w-5 h-5 text-[#BEBEBE] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                                     <input
                                         type="email"
                                         placeholder="البريد الإلكتروني"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                        className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-[#BEBEBE] focus:outline-none focus:ring-2 focus:ring-[#FFC107]"
                                     />
                                 </div>
                             ) : (
@@ -215,12 +219,12 @@ const Auth: React.FC<AuthProps> = ({ onLoginSuccess }) => {
                                         placeholder="رقم الهاتف"
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-                                        className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 px-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-left"
+                                        className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 px-3 text-white placeholder-[#BEBEBE] focus:outline-none focus:ring-2 focus:ring-[#FFC107] text-left"
                                     />
                                      <button
                                         type="button"
                                         onClick={() => setIsPickerOpen(true)}
-                                        className="flex-shrink-0 flex items-center justify-center gap-2 bg-black/50 border border-gray-600 rounded-lg h-full px-3 text-white placeholder-gray-400 hover:bg-black/70 transition-colors"
+                                        className="flex-shrink-0 flex items-center justify-center gap-2 bg-black/50 border border-gray-600 rounded-lg h-full px-3 text-white placeholder-[#BEBEBE] hover:bg-black/70 transition-colors"
                                     >
                                         <span className="text-xl">{getCountryFlagEmoji(country.code)}</span>
                                         <span className="text-sm font-mono">{country.dial_code}</span>
@@ -229,23 +233,34 @@ const Auth: React.FC<AuthProps> = ({ onLoginSuccess }) => {
                             )}
 
                             <div className="relative">
-                                <LockIcon className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 text-[#BEBEBE] hover:text-white"
+                                    aria-label={showPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
+                                >
+                                    {showPassword ? (
+                                        <EyeSlashIcon className="w-5 h-5" />
+                                    ) : (
+                                        <EyeIcon className="w-5 h-5" />
+                                    )}
+                                </button>
                                 <input
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     placeholder="كلمة المرور"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                    className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pr-3 pl-10 text-white placeholder-[#BEBEBE] focus:outline-none focus:ring-2 focus:ring-[#FFC107]"
                                 />
                             </div>
                             <button
                                 type="submit"
-                                className="w-full py-3 mt-2 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform bg-yellow-500 text-black hover:bg-yellow-400 hover:scale-105 shadow-lg"
+                                className="w-full py-3 mt-2 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform bg-[#FFC107] text-slate-900 hover:bg-[#ffca28] hover:scale-105 shadow-lg"
                             >
                                 {isLogin ? 'دخول' : 'تسجيل'}
                             </button>
                         </form>
-                        <button onClick={() => setView(isLogin ? 'signup' : 'login')} className="mt-6 text-sm text-yellow-300 hover:underline">
+                        <button onClick={() => setView(isLogin ? 'signup' : 'login')} className="mt-6 text-sm text-[#FFC107] hover:underline">
                             {isLogin ? 'ليس لديك حساب؟ إنشاء حساب جديد' : 'هل لديك حساب بالفعل؟ تسجيل الدخول'}
                         </button>
                     </div>

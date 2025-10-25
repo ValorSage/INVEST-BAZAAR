@@ -47,7 +47,7 @@ const CountryCodePicker: React.FC<CountryCodePickerProps> = ({ isOpen, onClose, 
                             placeholder="ابحث عن دولة..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pl-3 pr-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                            className="w-full bg-black/50 border border-gray-600 rounded-lg py-2.5 pl-3 pr-10 text-white placeholder-[#BEBEBE] focus:outline-none focus:ring-2 focus:ring-[#FFC107]"
                             autoFocus
                         />
                     </div>
@@ -63,9 +63,9 @@ const CountryCodePicker: React.FC<CountryCodePickerProps> = ({ isOpen, onClose, 
                                         onClick={() => onSelect(country)}
                                         className="w-full flex items-center justify-between text-right p-3 rounded-lg hover:bg-gray-700/50 transition-colors"
                                     >
-                                        <span className="font-mono text-gray-400">{country.dial_code}</span>
+                                        <span className="font-mono text-[#BEBEBE]">{country.dial_code}</span>
                                         <div className="flex items-center gap-3">
-                                            <span className="font-semibold text-gray-200">{country.name}</span>
+                                            <span className="font-semibold text-white">{country.name}</span>
                                             <span className="text-2xl">{getCountryFlagEmoji(country.code)}</span>
                                         </div>
                                     </button>
@@ -73,7 +73,7 @@ const CountryCodePicker: React.FC<CountryCodePickerProps> = ({ isOpen, onClose, 
                             ))}
                         </ul>
                     ) : (
-                        <p className="text-gray-400 py-8">لم يتم العثور على نتائج.</p>
+                        <p className="text-[#BEBEBE] py-8">لم يتم العثور على نتائج.</p>
                     )}
                 </div>
             </div>

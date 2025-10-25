@@ -40,7 +40,7 @@ const AdCarousel: React.FC = () => {
     const currentAd = ads[currentIndex];
 
     return (
-        <div className="w-full bg-black/30 border border-gray-700/50 backdrop-blur-md rounded-lg p-0 shadow-lg text-center overflow-hidden h-36 flex items-center justify-center">
+        <div className="w-full bg-[#b28704] border border-[#FFC107]/50 rounded-lg p-0 shadow-lg text-center overflow-hidden h-48 flex items-center justify-center">
             <div key={currentAd.id} className="animate-fade-in-ad w-full h-full">
                 {currentAd.imageUrl ? (
                     <img 
@@ -51,8 +51,8 @@ const AdCarousel: React.FC = () => {
                     />
                 ) : (
                     <div className="p-4 flex flex-col justify-center h-full">
-                        <h3 className="font-bold text-yellow-300 text-lg">{currentAd.title}</h3>
-                        <p className="text-gray-300 text-sm mt-1">{currentAd.description}</p>
+                        <h3 className="font-bold text-yellow-100 text-2xl" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)'}}>{currentAd.title}</h3>
+                        <p className="text-yellow-50 text-base mt-2" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)'}}>{currentAd.description}</p>
                     </div>
                 )}
             </div>
